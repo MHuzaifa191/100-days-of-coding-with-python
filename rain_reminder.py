@@ -5,11 +5,11 @@ import smtplib
 #use PythonAnywhere to automate
 #use twilio to use the paid api service
 
-api_key = "db3b1ed117dc4300ec6904ca5bd2149f"
+api_key = "your api key"
 latitude = "33.68"
 longitude = "73.04"
 
-response = requests.get(url=f"https://api.openweathermap.org/data/2.5/forecast?cnt=4&lat=33.68&lon=73.04&appid=db3b1ed117dc4300ec6904ca5bd2149f")
+response = requests.get(url=f"https://api.openweathermap.org/data/2.5/forecast?cnt=4&lat=33.68&lon=73.04&appid={api_key}")
 response.raise_for_status()
 data = response.json()
 
