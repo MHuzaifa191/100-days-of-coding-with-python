@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Movie{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1 class="heading">Add a Movie</h1>
+    <form id="contactForm" action="/add-data" method="post" data-sb-form-api-token="API_TOKEN" >
+        <div class="form-floating">
+            <input class="form-control" id="title" name="title" type="text" placeholder="Enter movie title..." data-sb-validations="required" />
+            <label for="title">Movie Title</label>
+        </div>
+        <div class="form-floating pt-2">
+            <input class="form-control" id="year" name="year" type="text" placeholder="Enter release year..." data-sb-validations="required" />
+            <label for="year">Year</label>
+        </div>
+        <div class="form-floating pt-2">
+            <input class="form-control" id="description" name="description" type="text" placeholder="Enter movie description..." data-sb-validations="required">
+            <label for="description">Description</label>
+        </div>
+        <div class="form-floating pt-2">
+            <input class="form-control" id="rating" name="rating" type="text" placeholder="Enter movie rating..." data-sb-validations="required">
+            <label for="rating">Rating</label>
+        </div>
+        <div class="form-floating pt-2">
+            <input class="form-control" id="ranking" name="ranking" type="text" placeholder="Enter movie ranking..." data-sb-validations="required">
+            <label for="ranking">Ranking</label>
+        </div>
+        <div class="form-floating pt-2">
+            <input class="form-control" id="review" name="review" type="text" placeholder="Enter movie review..." data-sb-validations="required">
+            <label for="review">Review</label>
+        </div>
+        <div class="form-floating pt-2">
+            <input class="form-control" id="url" name="url" type="text" placeholder="Enter movie's image url..." data-sb-validations="required">
+            <label for="url">Image URL</label>
+        </div>
+        <br />
+        <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+        <!-- Submit Button-->
+        <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Add</button>
+    </form>
+</div>
+{% endblock %}

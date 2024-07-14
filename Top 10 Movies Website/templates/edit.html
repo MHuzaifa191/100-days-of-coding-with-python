@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Movies{% endblock %}
+
+{% block content %}
+<div class="content mt-4 justify-content-space-between">
+  <h1 class="heading text-center">Movie Title</h1>
+  <p class="description text-center">Edit Movie Rating</p>
+  <form action="/change/{{number}}" method="post">
+    <input type="text" name="rating" id="rating">
+    <button type="submit">Update</button>
+  </form>
+</div>
+{% endblock %}
