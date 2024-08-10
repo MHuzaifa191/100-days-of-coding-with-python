@@ -10,7 +10,7 @@
           <h2 class="subheading">{{ post.subtitle }}</h2>
           <span class="meta"
             >Posted by
-            <a href="#">{{ post.author }}</a>
+            <a href="#">{{ post.author.name }}</a>
             on {{ post.date }}
           </span>
         </div>
@@ -25,15 +25,61 @@
     <div class="row gx-4 gx-lg-5 justify-content-center">
       <div class="col-md-10 col-lg-8 col-xl-7">
         {{ post.body|safe }}
-
+        {% if post.author.id == current_user.id %}
         <div class="d-flex justify-content-end mb-4">
-          <!-- TODO: Editing posts-->
           <a
             class="btn btn-primary float-right"
-            href="{{ url_for('edit_post', post_id=post.id) }}"
+            href="{{url_for('edit_post', post_id=post.id)}}"
             >Edit Post</a
           >
         </div>
+        {% endif %}
+
+        <!-- Comments Area -->
+        <div class="comments-area">
+          <h3>Comments</h3>
+
+          <!-- Show all the comments on a post -->
+          <ul class="commentList">
+              {% for comment in post.comments %}
+              <li>
+                  <div class="commenterImage">
+                      <img src="{{ url_for('static', filename='assets/img/default-profile.jpg') }}" />
+                  </div>
+                  <div class="commentText">
+                      <p>{{ comment.text }}</p>
+                      <span class="date sub-text">{{ comment.user.name }} on {{ comment.date.strftime('%B %d, %Y') }}</span>
+                  </div>
+              </li>
+              {% endfor %}
+          </ul>
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+          {% if messages %}
+            <div class="flashes">
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+          <!-- Comment Form -->
+          {% if current_user.is_authenticated %}
+          <form method="POST" action="{{ url_for('show_post', post_id=post.id) }}">
+              {{ form.hidden_tag() }}
+              <div class="form-group">
+                  {{ form.comment_editor(class_='form-control') }}
+              </div>
+              <button type="submit" class="btn btn-primary mt-3 mb-3">Submit Comment</button>
+          </form>
+          {% else %}
+          <p>Please <a href="{{ url_for('login') }}">login</a> to leave a comment.</p>
+          {% endif %}
+        </div>
+
       </div>
     </div>
   </div>

@@ -8,7 +8,7 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Clean Blog - Start Bootstrap Theme</title>
+    <title>Angela's Blog</title>
     {% block styles %}
     <!-- Load Bootstrap-Flask CSS here -->
     {{ bootstrap.load_css() }}
@@ -38,7 +38,6 @@
       href="{{ url_for('static', filename='css/styles.css') }}"
       rel="stylesheet"
     />
-    <script src="https://cdn.ckeditor.com/ckeditor5/ckeditor.js"></script>
     {% endblock %}
   </head>
   <body>
@@ -67,6 +66,32 @@
                 >Home</a
               >
             </li>
+            <!-- TODO: Only show Login/Register if user is logged out. Otherwise show "Log Out" -->
+            {% if not current_user.is_authenticated %}
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('login') }}"
+                >Login</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('register') }}"
+                >Register</a
+              >
+            </li>
+            {% endif %}
+            {% if current_user.is_authenticated %}
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('logout') }}"
+                >Log Out</a
+              >
+            </li>
+            {% endif %}
             <li class="nav-item">
               <a
                 class="nav-link px-lg-3 py-3 py-lg-4"
@@ -85,3 +110,5 @@
         </div>
       </div>
     </nav>
+  </body>
+</html>

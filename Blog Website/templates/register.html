@@ -1,23 +1,18 @@
 {% from "bootstrap5/form.html" import render_form %} {% block content %} {%
 include "header.html" %}
 
+
 <!-- Page Header -->
 <header
   class="masthead"
-  style="background-image: url('../static/assets/img/edit-bg.jpg')"
+  style="background-image: url('../static/assets/img/register-bg.jpg')"
 >
   <div class="container position-relative px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
       <div class="col-md-10 col-lg-8 col-xl-7">
         <div class="page-heading">
-          {% if is_edit: %}
-          <h1>Edit Post</h1>
-          {% else: %}
-          <h1>New Post</h1>
-          {% endif %}
-          <span class="subheading"
-            >You're going to make a great blog post!</span
-          >
+          <h1>Register</h1>
+          <span class="subheading">Start Contributing to the Blog!</span>
         </div>
       </div>
     </div>
@@ -28,10 +23,10 @@ include "header.html" %}
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        {{ ckeditor.load() }} {{ ckeditor.config(name='body') }} {{
-        render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        {{ render_form(form) }}
       </div>
     </div>
   </div>
 </main>
+
 {% include "footer.html" %} {% endblock %}
