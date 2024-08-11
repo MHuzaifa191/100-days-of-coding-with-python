@@ -1,5 +1,5 @@
 from datetime import date
-from flask import Flask, abort, render_template, redirect, url_for, flash
+from flask import Flask, abort, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
 from flask_gravatar import Gravatar
@@ -13,10 +13,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql import func
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 from flask_login import login_required, current_user
+import os
+import smtplib
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get('flask_key')
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
@@ -36,6 +38,7 @@ def admin_only(function):
         else:
             return abort(403)
     return wrapper_function
+
 
 
 
@@ -133,7 +136,6 @@ def login():
 
         if check_password_hash(user.password, password):
             login_user(user)
-            flash('Logged in successfully.')
             return redirect(url_for('get_all_posts'))
         elif user is None:
             flash('No account found with that email address.', 'danger')
@@ -226,9 +228,19 @@ def edit_post(post_id):
 @login_required
 def delete_post(post_id):
     post_to_delete = db.get_or_404(BlogPost, post_id)
-    db.session.delete(post_to_delete)
-    db.session.commit()
+    
+    if current_user.id == post_to_delete.author_id:
+        comments_to_delete = Comment.query.filter_by(post_id=post_id).all()
+        for comment in comments_to_delete:
+            db.session.delete(comment)
+        
+        db.session.delete(post_to_delete)
+        db.session.commit()
+    else:
+        flash("You don't have permission to delete this post.")
+    
     return redirect(url_for('get_all_posts'))
+
 
 
 @app.route("/about")
@@ -236,9 +248,37 @@ def about():
     return render_template("about.html")
 
 
+
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+
+@app.route('/form-entry', methods=["POST", "GET"])
+def collect_data():
+    msg_sent = False
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        message = request.form.get('message')
+        my_email = 'm.huz4if4@gmail.com'
+        my_password = os.environ['gmail_pass']
+
+        with smtplib.SMTP("smtp.gmail.com", 587) as connection:
+            connection.starttls()
+            connection.login(user=my_email, password=my_password)
+            subject = "Message from user"
+            body = f"Message: {message}, from {name}"
+            msg = f"Subject: {subject}\n\n{body}"
+            connection.sendmail(from_addr=my_email, to_addrs="m.huz4if4@gmail.com", msg=msg)
+            connection.close()
+            msg_sent = True
+
+        return render_template("contact.html", msg_sent=msg_sent)
+
+    
+
 
 
 if __name__ == "__main__":
