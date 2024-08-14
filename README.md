@@ -14,7 +14,7 @@ Throughout this challenge, I used various tools and libraries to complete the pr
 - **PyCharm, Jupyter Notebook, Google Colab**
 - **Web Scraping**: BeautifulSoup, Selenium WebDriver
 - **Data Science**: Pandas, NumPy, Matplotlib, Seaborn, Plotly
-- **Web Development**: Flask, WTForms, HTML5, CSS3, Bootstrap 4
+- **Web Development**: Flask, WTForms, HTML5, CSS3, Bootstrap 5
 - **Databases**: SQLite, PostgreSQL
 - **APIs**: REST, JSON
 - **Deployment**: GitHub Pages, Heroku, GUnicorn
