@@ -26,4 +26,4 @@ To explore the projects:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/100-days-of-code-python.git
+   git clone https://github.com/MHuzaifa191/100-days-of-coding-with-python.git
